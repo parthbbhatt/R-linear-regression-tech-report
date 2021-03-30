@@ -2,29 +2,400 @@
 title: "STA305 tech report"
 author: "Parth Brahmbhatt"
 date: "March 29, 2021"
-output: html_document
+output:
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+### Importing the data
+This is the data we will use, it contains all the stores with blocking as well as the nutritional information and its price.
+```{r}
+data <- readxl::read_excel("Data.xlsx", sheet = "All Stores with Stores Block")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+colnames(data) <- gsub(" ", "_", colnames(data))
+colnames(data) <- gsub("\\(|\\)", "", colnames(data))
 ```
 
-## Including Plots
+### Background
+With the information presented below, we will check whether the data satisfies the assumptions of Guass-markov assumptions as well as the assumptions of linear regression.
 
-You can also embed plots, for example:
+## Walmart
+# Price vs Volume per unit (mL)
+```{r}
+model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Walmart'))
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# Price vs Total Volume (mL)
+```{r}
+model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Nutritional Value Base (mL)
+```{r}
+model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Calories
+```{r}
+model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Calories, main="Price vs Calories for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Fat (g)
+```{r}
+model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Walmart", data=subset(data, Store == 'Walmart'))
+```
+
+
+# Price vs Sodium (mg)
+```{r}
+model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Carbohydrates (g)
+```{r}
+model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Sugars (g)
+```{r}
+model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Protein (g)
+```{r}
+model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Walmart'))
+
+plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Zehrs
+# Price vs Volume per unit (mL)
+```{r}
+model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Total Volume (mL)
+```{r}
+model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Nutritional Value Base (mL)
+```{r}
+model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Calories
+```{r}
+model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Calories, main="Price vs Calories for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Fat (g)
+```{r}
+model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+```
+
+
+# Price vs Sodium (mg)
+```{r}
+model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Carbohydrates (g)
+```{r}
+model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Sugars (g)
+```{r}
+model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Protein (g)
+```{r}
+model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Zehrs'))
+
+plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+
+
+
+
+## Metro
+# Price vs Volume per unit (mL)
+```{r}
+model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Total Volume (mL)
+```{r}
+model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Nutritional Value Base (mL)
+```{r}
+model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Calories
+```{r}
+model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Calories, main="Price vs Calories for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Fat (g)
+```{r}
+model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Metro", data=subset(data, Store == 'Metro'))
+```
+
+
+# Price vs Sodium (mg)
+```{r}
+model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Carbohydrates (g)
+```{r}
+model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Sugars (g)
+```{r}
+model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Protein (g)
+```{r}
+model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Metro'))
+
+plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+
+
+
+
+
+## Metro
+# Price vs Volume per unit (mL)
+```{r}
+model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Total Volume (mL)
+```{r}
+model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Nutritional Value Base (mL)
+```{r}
+model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Calories
+```{r}
+model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Calories, main="Price vs Calories for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Fat (g)
+```{r}
+model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+```
+
+
+# Price vs Sodium (mg)
+```{r}
+model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Carbohydrates (g)
+```{r}
+model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Sugars (g)
+```{r}
+model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price vs Protein (g)
+```{r}
+model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'No-Frills'))
+
+plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
