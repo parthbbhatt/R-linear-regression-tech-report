@@ -129,6 +129,9 @@ abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```{r}
 model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
+summary(model)
+anova(model)
+
 plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
 ```
 
@@ -299,6 +302,9 @@ plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for No-Fri
 # Price_per_Z_mL vs Sodium (mg)
 ```{r}
 model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+summary(model)
+anova(model)
 
 plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
 
@@ -911,4 +917,18 @@ model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'No-
 qqnorm(residuals(model), main="Normal QQ-plot of Protein for No-frills")
 qqline(residuals(model))
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
