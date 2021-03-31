@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ### Importing the data
-This is the data we will use, it contains all the stores with blocking as well as the nutritional information and its price.
+This is the data we will use, it contains all the stores with blocking as well as the nutritional information and its Price_per_Z_mL.
 ```{r}
 data <- readxl::read_excel("Data.xlsx", sheet = "All Stores with Stores Block")
 
@@ -23,96 +23,82 @@ colnames(data) <- gsub("\\(|\\)", "", colnames(data))
 ### Background
 With the information presented below, we will check whether the data satisfies the assumptions of Guass-markov assumptions as well as the assumptions of linear regression.
 
+### Scatterplot
 ## Walmart
-# Price vs Volume per unit (mL)
+# Price_per_Z_mL vs Calories
 ```{r}
-model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Walmart'))
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Walmart'))
 
-plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Calories_per_Z_mL, main="Price_per_Z_mL vs Calories for Walmart", data=subset(data, Store == 'Walmart'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Total Volume (mL)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Walmart'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
 
-plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for Walmart", data=subset(data, Store == 'Walmart'))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for Walmart", data=subset(data, Store == 'Walmart'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Nutritional Value Base (mL)
+# Price_per_Z_mL vs Carbohydrates (g)
 ```{r}
-model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Walmart'))
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
 
-plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Walmart", data=subset(data, Store == 'Walmart'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, main="Price_per_Z_mL vs Carbohydrates (g) for Walmart", data=subset(data, Store == 'Walmart'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Calories
+# Price_per_Z_mL vs Sugars (g)
 ```{r}
-model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Walmart'))
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
 
-plot(Price ~ NV_Calories, main="Price vs Calories for Walmart", data=subset(data, Store == 'Walmart'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sugars_g_per_Z_mL, main="Price_per_Z_mL vs Sugars (g) for Walmart", data=subset(data, Store == 'Walmart'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Fat (g)
+# Price_per_Z_mL vs Protein (g)
 ```{r}
-model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Walmart'))
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
 
-plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Walmart", data=subset(data, Store == 'Walmart'))
-```
+summary(model)
+anova(model)
 
-
-# Price vs Sodium (mg)
-```{r}
-model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Walmart'))
-
-plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Walmart", data=subset(data, Store == 'Walmart'))
+plot(Price_per_Z_mL ~ Protein_g_per_Z_mL, main="Price_per_Z_mL vs Protein (g) for Walmart", data=subset(data, Store == 'Walmart'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
-
-
-# Price vs Carbohydrates (g)
-```{r}
-model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Walmart'))
-
-plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Walmart", data=subset(data, Store == 'Walmart'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-# Price vs Sugars (g)
-```{r}
-model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Walmart'))
-
-plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Walmart", data=subset(data, Store == 'Walmart'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-# Price vs Protein (g)
-```{r}
-model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Walmart'))
-
-plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Walmart", data=subset(data, Store == 'Walmart'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-
 
 
 
@@ -126,89 +112,74 @@ abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 
 
 ## Zehrs
-# Price vs Volume per unit (mL)
+# Price_per_Z_mL vs Calories
 ```{r}
-model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Zehrs'))
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Calories_per_Z_mL, main="Price_per_Z_mL vs Calories for Zehrs", data=subset(data, Store == 'Zehrs'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Total Volume (mL)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Zehrs'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for Zehrs", data=subset(data, Store == 'Zehrs'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Nutritional Value Base (mL)
+# Price_per_Z_mL vs Carbohydrates (g)
 ```{r}
-model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Zehrs'))
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Zehrs", data=subset(data, Store == 'Zehrs'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, main="Price_per_Z_mL vs Carbohydrates (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Calories
+# Price_per_Z_mL vs Sugars (g)
 ```{r}
-model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Zehrs'))
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-plot(Price ~ NV_Calories, main="Price vs Calories for Zehrs", data=subset(data, Store == 'Zehrs'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sugars_g_per_Z_mL, main="Price_per_Z_mL vs Sugars (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Fat (g)
+# Price_per_Z_mL vs Protein (g)
 ```{r}
-model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Zehrs'))
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
-```
+summary(model)
+anova(model)
 
-
-# Price vs Sodium (mg)
-```{r}
-model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Zehrs'))
-
-plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Zehrs", data=subset(data, Store == 'Zehrs'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-# Price vs Carbohydrates (g)
-```{r}
-model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Zehrs'))
-
-plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-# Price vs Sugars (g)
-```{r}
-model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Zehrs'))
-
-plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
-```
-
-
-# Price vs Protein (g)
-```{r}
-model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Zehrs'))
-
-plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+plot(Price_per_Z_mL ~ Protein_g_per_Z_mL, main="Price_per_Z_mL vs Protein (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
@@ -219,93 +190,322 @@ abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 
 
 ## Metro
-# Price vs Volume per unit (mL)
+# Price_per_Z_mL vs Calories
 ```{r}
-model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Calories_per_Z_mL, main="Price_per_Z_mL vs Calories for Metro", data=subset(data, Store == 'Metro'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Total Volume (mL)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for Metro", data=subset(data, Store == 'Metro'))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for Metro", data=subset(data, Store == 'Metro'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Nutritional Value Base (mL)
+# Price_per_Z_mL vs Carbohydrates (g)
 ```{r}
-model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, main="Price_per_Z_mL vs Carbohydrates (g) for Metro", data=subset(data, Store == 'Metro'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Calories
+# Price_per_Z_mL vs Sugars (g)
 ```{r}
-model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Calories, main="Price vs Calories for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sugars_g_per_Z_mL, main="Price_per_Z_mL vs Sugars (g) for Metro", data=subset(data, Store == 'Metro'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Fat (g)
+# Price_per_Z_mL vs Protein (g)
 ```{r}
-model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for Metro", data=subset(data, Store == 'Metro'))
-```
+summary(model)
+anova(model)
 
-
-# Price vs Sodium (mg)
-```{r}
-model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'Metro'))
-
-plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for Metro", data=subset(data, Store == 'Metro'))
+plot(Price_per_Z_mL ~ Protein_g_per_Z_mL, main="Price_per_Z_mL vs Protein (g) for Metro", data=subset(data, Store == 'Metro'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Carbohydrates (g)
-```{r}
-model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for Metro", data=subset(data, Store == 'Metro'))
+
+
+
+
+## No Frills
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Calories_per_Z_mL, main="Price_per_Z_mL vs Calories for No-Frills", data=subset(data, Store == 'No-Frills'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Sugars (g)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
 
-plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
 
-# Price vs Protein (g)
+# Price_per_Z_mL vs Carbohydrates (g)
 ```{r}
-model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'Metro'))
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
 
-plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for Metro", data=subset(data, Store == 'Metro'))
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, main="Price_per_Z_mL vs Carbohydrates (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
 
 abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```
 
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Sugars_g_per_Z_mL, main="Price_per_Z_mL vs Sugars (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+summary(model)
+anova(model)
+
+plot(Price_per_Z_mL ~ Protein_g_per_Z_mL, main="Price_per_Z_mL vs Protein (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+
+
+
+
+
+### Residual
+## Walmart
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Calories_per_Z_mL, main="Model residual vs Calories for Walmart", ylab="std.residuals", data=subset(data, Store == 'Walmart'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Fat_g_per_Z_mL, main="Model residual vs Fat (g) for Walmart", ylab="std.residuals", data=subset(data, Store == 'Walmart'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Sodium_mg_per_Z_mL, main="Model residual vs Sodium (mg) for Walmart",
+ylab="std.residuals", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Carbohydrates_g_per_Z_mL, main="Model residual vs Carbohydrates (g) for Walmart", ylab="std.residuals", data=subset(data, Store == 'Walmart'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Sugars_g_per_Z_mL, main="Model residual vs Sugars (g) for Walmart", ylab="std.residuals", data=subset(data, Store == 'Walmart'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+res <- rstandard(model)
+
+plot(res ~ Protein_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Protein (g) for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(h = 0, lty = 2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Zehrs
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Calories_per_Z_mL, ylab="std.residuals", main="Model residual vs Calories for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Fat_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Sodium_mg_per_Z_mL, ylab="std.residuals", main="Model residual vs Sodium (mg) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Carbohydrates_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Carbohydrates (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Sugars_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Sugars (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+res <- rstandard(model)
+
+plot(res ~ Protein_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Protein (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
+
+abline(h = 0, lty = 2)
+```
 
 
 
@@ -313,89 +513,402 @@ abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 
 
 ## Metro
-# Price vs Volume per unit (mL)
+# Price_per_Z_mL vs Calories
 ```{r}
-model <- lm(Price ~ Volume_per_unit_mL, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Volume_per_unit_mL, main="Price vs Volume per unit (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Calories_per_Z_mL, ylab="std.residuals", main="Model residual vs Calories for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Total Volume (mL)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ Total_Vol_mL, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Total_Vol_mL, main="Price vs Total Volume (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Fat_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Fat (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Nutritional Value Base (mL)
+# Price_per_Z_mL vs Sodium (mg)
 ```{r}
-model <- lm(Price ~ Nutritional_Value_Base_mL, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ Nutritional_Value_Base_mL, main="Price vs Nutritional Value Base (mL) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Sodium_mg_per_Z_mL, ylab="std.residuals", main="Model residual vs Sodium (mg) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Calories
+# Price_per_Z_mL vs Carbohydrates (g)
 ```{r}
-model <- lm(Price ~ NV_Calories, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Calories, main="Price vs Calories for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Carbohydrates_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Carbohydrates (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Fat (g)
+# Price_per_Z_mL vs Sugars (g)
 ```{r}
-model <- lm(Price ~ NV_Fat_g, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Fat_g, main="Price vs Fat (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
+
+plot(res ~ Sugars_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Sugars (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Sodium (mg)
+# Price_per_Z_mL vs Protein (g)
 ```{r}
-model <- lm(Price ~ NV_Sodium_mg, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Metro'))
 
-plot(Price ~ NV_Sodium_mg, main="Price vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Protein_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Protein (g) for Metro", data=subset(data, Store == 'Metro'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Carbohydrates (g)
+
+
+
+
+
+## No-frills
+# Price_per_Z_mL vs Calories
 ```{r}
-model <- lm(Price ~ NV_Carbohydrates_g, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'No-Frills'))
 
-plot(Price ~ NV_Carbohydrates_g, main="Price vs Carbohydrates (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Calories_per_Z_mL, ylab="std.residuals", main="Model residual vs Calories for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Sugars (g)
+# Price_per_Z_mL vs Fat (g)
 ```{r}
-model <- lm(Price ~ NV_Sugars_g, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
 
-plot(Price ~ NV_Sugars_g, main="Price vs Sugars (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Fat_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Fat (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
 ```
 
 
-# Price vs Protein (g)
+# Price_per_Z_mL vs Sodium (mg)
 ```{r}
-model <- lm(Price ~ NV_Protein_g, data=subset(data, Store == 'No-Frills'))
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'No-Frills'))
 
-plot(Price ~ NV_Protein_g, main="Price vs Protein (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+res <- rstandard(model)
 
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+plot(res ~ Sodium_mg_per_Z_mL, ylab="std.residuals", main="Model residual vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
 ```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+res <- rstandard(model)
+
+plot(res ~ Carbohydrates_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Carbohydrates (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+res <- rstandard(model)
+
+plot(res ~ Sugars_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Sugars (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+res <- rstandard(model)
+
+plot(res ~ Protein_g_per_Z_mL, ylab="std.residuals", main="Model residual vs Protein (g) for No-Frills", data=subset(data, Store == 'No-Frills'))
+
+abline(h = 0, lty = 2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+### QQplots
+## Walmart
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Calories for Walmart")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Fat for Walmart")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sodium for Walmart")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Carbohydrates for Walmart")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sugars for Walmart")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Protein for Walmart")
+qqline(residuals(model))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Zehrs
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Calories for Zehrs")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Fat for Zehrs")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sodium for Zehrs")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Carbohydrates for Zehrs")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sugars for Zehrs")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Protein for Zehrs")
+qqline(residuals(model))
+```
+
+
+
+
+
+
+## Metro
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Calories for Metro")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Fat for Metro")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sodium for Metro")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Carbohydrates for Metro")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sugar for Metro")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'Metro'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Protein for Metro")
+qqline(residuals(model))
+```
+
+
+
+
+
+
+
+## No-frills
+# Price_per_Z_mL vs Calories
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Calories for No-frills")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Fat (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Fat for No-frills")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sodium (mg)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sodium for No-frills")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Carbohydrates (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Carbohydrates for No-frills")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Sugars (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Sugar for No-frills")
+qqline(residuals(model))
+```
+
+
+# Price_per_Z_mL vs Protein (g)
+```{r}
+model <- lm(Price_per_Z_mL ~ Protein_g_per_Z_mL, data=subset(data, Store == 'No-Frills'))
+
+qqnorm(residuals(model), main="Normal QQ-plot of Protein for No-frills")
+qqline(residuals(model))
+```
+
