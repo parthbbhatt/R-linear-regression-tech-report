@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Importing the data
 This is the data we will use, it contains all the stores with blocking as well as the nutritional information and its Price_per_Z_mL.
 ```{r}
+library("pwr")
+
 data <- readxl::read_excel("Data.xlsx", sheet = "All Stores with Stores Block")
 
 colnames(data) <- gsub(" ", "_", colnames(data))
@@ -1014,4 +1016,38 @@ plot(D ~ Sugars_g_per_Z_mL, ylab="Cook's D", main = "Cook's D of sugars for Walm
 
 abline(h = (4/(nrow(subset(data, Store == 'Walmart'))-2)), lty=2)
 ```
+
+
+
+
+### Sample size
+```{r}
+pwr.anova.test(k=6, n=NULL, sig.level=0.05, power=0.75, f=0.4)
+```
+
+
+
+
+
+
+
+
+```{r}
+model <- lm(Price_per_Z_mL ~ as.factor(Store), data=data)
+
+summary(model)
+
+plot(Price_per_Z_mL ~ as.factor(Store), main="", data=subset(data, Store == 'No-Frills'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+```
+
+
+
+
+
+
+
+
+
 
