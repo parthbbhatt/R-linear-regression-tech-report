@@ -129,9 +129,6 @@ abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
 ```{r}
 model <- lm(Price_per_Z_mL ~ Fat_g_per_Z_mL, data=subset(data, Store == 'Zehrs'))
 
-summary(model)
-anova(model)
-
 plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for Zehrs", data=subset(data, Store == 'Zehrs'))
 ```
 
@@ -302,9 +299,6 @@ plot(Price_per_Z_mL ~ Fat_g_per_Z_mL, main="Price_per_Z_mL vs Fat (g) for No-Fri
 # Price_per_Z_mL vs Sodium (mg)
 ```{r}
 model <- lm(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, data=subset(data, Store == 'No-Frills'))
-
-summary(model)
-anova(model)
 
 plot(Price_per_Z_mL ~ Sodium_mg_per_Z_mL, main="Price_per_Z_mL vs Sodium (mg) for No-Frills", data=subset(data, Store == 'No-Frills'))
 
@@ -923,12 +917,101 @@ qqline(residuals(model))
 
 
 
+### Influential points
+We are going to find the influential points for the 3 models we have selected
+
+```{r}
+model <- lm(Price_per_Z_mL ~ Calories_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+D <- cooks.distance(model)
+cutoff <- 4/nrow(subset(data, Store == 'Walmart'))
+
+ynew <- subset(data, Store == 'Walmart')$Price_per_Z_mL
+
+ri <- rstandard(model)
+
+par(mfrow=c(1,2))
+
+plot(Price_per_Z_mL ~ Calories_per_Z_mL, main="Inf points of calories for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+points(subset(data, Store == 'Walmart')$Calories_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], ynew[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
+
+
+
+plot(rstandard(model) ~ Calories_per_Z_mL, data=subset(data, Store == 'Walmart'), main="Inf points on residual plot")
+
+points(subset(data, Store == 'Walmart')$Calories_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], rstandard(model)[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
+
+abline(h = 0, lty = 2)
+
+plot(D ~ Calories_per_Z_mL, ylab="Cook's D", main = "Cook's D of calories for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(h = (4/(nrow(subset(data, Store == 'Walmart'))-2)), lty=2)
+```
+
+
+```{r}
+model <- lm(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+D <- cooks.distance(model)
+cutoff <- 4/nrow(subset(data, Store == 'Walmart'))
+
+ynew <- subset(data, Store == 'Walmart')$Price_per_Z_mL
+
+ri <- rstandard(model)
+
+par(mfrow=c(1,2))
+
+plot(Price_per_Z_mL ~ Carbohydrates_g_per_Z_mL, main="Inf points of carbs for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+
+points(subset(data, Store == 'Walmart')$Carbohydrates_g_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], ynew[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
+
+
+
+plot(rstandard(model) ~ Carbohydrates_g_per_Z_mL, data=subset(data, Store == 'Walmart'), main="Inf points on residual plot")
+
+points(subset(data, Store == 'Walmart')$Carbohydrates_g_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], ynew[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
+
+abline(h = 0, lty = 2)
+
+plot(D ~ Carbohydrates_g_per_Z_mL, ylab="Cook's D", main = "Cook's D of carbs for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(h = (4/(nrow(subset(data, Store == 'Walmart'))-2)), lty=2)
+```
 
 
 
 
+```{r}
+model <- lm(Price_per_Z_mL ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Walmart'))
+
+D <- cooks.distance(model)
+cutoff <- 4/nrow(subset(data, Store == 'Walmart'))
+
+ynew <- subset(data, Store == 'Walmart')$Price_per_Z_mL
+
+ri <- rstandard(model)
+
+par(mfrow=c(1,2))
+
+plot(Price_per_Z_mL ~ Sugars_g_per_Z_mL, main="Inf points of sugars for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+points(subset(data, Store == 'Walmart')$Sugars_g_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], ynew[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
 
 
 
+plot(rstandard(model) ~ Sugars_g_per_Z_mL, data=subset(data, Store == 'Walmart'), main="Inf points on residual plot")
 
+points(subset(data, Store == 'Walmart')$Sugars_g_per_Z_mL[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], ynew[which(D > 4/(nrow(subset(data, Store == 'Walmart'))-2))], col="red", pch=20)
+
+abline(h = 0, lty = 2)
+
+plot(D ~ Sugars_g_per_Z_mL, ylab="Cook's D", main = "Cook's D of sugars for Walmart", data=subset(data, Store == 'Walmart'))
+
+abline(h = (4/(nrow(subset(data, Store == 'Walmart'))-2)), lty=2)
+```
 
