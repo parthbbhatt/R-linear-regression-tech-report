@@ -1035,11 +1035,7 @@ pwr.anova.test(k=6, n=NULL, sig.level=0.05, power=0.75, f=0.4)
 ```{r}
 model <- lm(Price_per_Z_mL ~ as.factor(Store), data=data)
 
-summary(model)
-
-plot(Price_per_Z_mL ~ as.factor(Store), main="", data=subset(data, Store == 'No-Frills'))
-
-abline(a = model$coefficients[1], b = model$coefficients[2], col="blue")
+anova(model)
 ```
 
 
