@@ -1030,8 +1030,7 @@ pwr.anova.test(k=6, n=NULL, sig.level=0.05, power=0.75, f=0.4)
 
 
 
-
-
+### Model without blocking
 ```{r}
 model <- lm(Price_per_Z_mL ~ as.factor(Store), data=data)
 
@@ -1041,7 +1040,14 @@ anova(model)
 
 
 
+### Model with blocking
+```{r}
+block <- cbind(data$Calories_per_Z_mL, data$Carbohydrates_g_per_Z_mL, data$Sugars_g_per_Z_mL)
 
+model <- lm(Price_per_Z_mL ~ as.factor(Store) + block, data=data)
+
+anova(model)
+```
 
 
 
